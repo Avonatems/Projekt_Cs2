@@ -1,0 +1,8 @@
+C:\Users\Daniela.Smetanova\source\repos\CS2 - MujProjekt\CS2 - MujProjekt\bin\Debug\CS2 - MujProjekt.exe.config
+C:\Users\Daniela.Smetanova\source\repos\CS2 - MujProjekt\CS2 - MujProjekt\bin\Debug\CS2 - MujProjekt.exe
+C:\Users\Daniela.Smetanova\source\repos\CS2 - MujProjekt\CS2 - MujProjekt\bin\Debug\CS2 - MujProjekt.pdb
+C:\Users\Daniela.Smetanova\source\repos\CS2 - MujProjekt\CS2 - MujProjekt\obj\Debug\CS2 - MujProjekt.csproj.AssemblyReference.cache
+C:\Users\Daniela.Smetanova\source\repos\CS2 - MujProjekt\CS2 - MujProjekt\obj\Debug\CS2 - MujProjekt.csproj.SuggestedBindingRedirects.cache
+C:\Users\Daniela.Smetanova\source\repos\CS2 - MujProjekt\CS2 - MujProjekt\obj\Debug\CS2 - MujProjekt.csproj.CoreCompileInputs.cache
+C:\Users\Daniela.Smetanova\source\repos\CS2 - MujProjekt\CS2 - MujProjekt\obj\Debug\CS2 - MujProjekt.exe
+C:\Users\Daniela.Smetanova\source\repos\CS2 - MujProjekt\CS2 - MujProjekt\obj\Debug\CS2 - MujProjekt.pdb
