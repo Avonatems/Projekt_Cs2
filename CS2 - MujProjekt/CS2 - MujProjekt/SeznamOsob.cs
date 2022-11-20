@@ -21,8 +21,7 @@ namespace CS2___MujProjekt
         public void NacteniExtSeznamu()
         {
             {
-                adresarProSeznam = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "MujProjektCS2");
+                adresarProSeznam = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MujProjektCS2");
                 seznamXmlSCestou = Path.Combine(adresarProSeznam, "MujSeznamNaProjekt.xml");
 
                 if (!Directory.Exists(Path.GetDirectoryName(seznamXmlSCestou)))

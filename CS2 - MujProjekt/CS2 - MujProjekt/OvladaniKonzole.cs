@@ -8,21 +8,29 @@ namespace CS2___MujProjekt
 {
     public static class OvladaniKonzole
     {
+        // Ty texty tady jsou dost nepřehledné. Přeformátoval jsem to aspoň do tzn. Here stringů,
+        // mrkni do dokumentace nebo na web jaká je přesně syntaxe a k čemu to slouží.
+        // Nicméně, napad je to dobrý (OvladaniKonzole), jenom bych si pohlídal, aby ty řádky nebyly duplicitní.
+        // Všimni si, jak jsem tento problém vyřešil.
+        
         public static void UvodniHlaska()
         {
-            Console.WriteLine("Tohle je program na evidenci dulezitych faktu o znamych, kolezich atd.");
-            Console.WriteLine("Jakou akci chcete provest?\nZadejte \n'1' pokud chcete zapsat novou osobu" +
-                "\n'2' pokud chcete doplnit udaje k existujici osobe, \n'3' pokud chcete vymazat osobu, \n'4' " +
-                "pokud chcete zobrazit udaje nebo \n'5' jestli chcete program ukoncit. Volbu potvrdte Entrem");
-            Console.WriteLine("Vase volba: ");
+            Console.Write("Tohle je program na evidenci dulezitych faktu o znamych, kolezich atd.");
+            DotazJakouDalsiAkciProvest();
         }
 
         public static void DotazJakouDalsiAkciProvest()
         {
-            Console.WriteLine("Jakou dalsi akci chcete provest?\nZadejte \n'1' pokud chcete zapsat novou osobu" +
-                "\n'2' pokud chcete doplnit udaje k existujici osobe, \n'3' pokud chcete vymazat osobu, \n'4' " +
-                "pokud chcete zobrazit udaje nebo \n'5' jestli chcete program ukoncit. Volbu potvrdte Entrem");
-            Console.WriteLine("Vase volba: ");
+            Console.WriteLine(@"
+Jakou dalsi akci chcete provest?
+Zadejte 
+'1' pokud chcete zapsat novou osobu
+'2' pokud chcete doplnit udaje k existujici osobe, 
+'3' pokud chcete vymazat osobu,
+'4' pokud chcete zobrazit udaje nebo 
+'5' jestli chcete program ukoncit. Volbu potvrdte Entrem
+Vase volba: 
+");
         }
     }
 }

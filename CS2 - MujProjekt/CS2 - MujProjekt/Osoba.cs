@@ -9,7 +9,7 @@ namespace CS2___MujProjekt
         public string Jmeno { get; set; }
         public string Prijmeni { get; set; }
         public string RodnePrijmeni { get; set; }
-        public List<string> AlergieNaJidlo { get; set; }
+        public List<string> AlergieNaJidlo { get; set; } // U žádného z těchto seznamů nepotřebuješ set;
         public List<string> OblibenaJidla { get; set; }
         public List<string> JmenaDeti { get; set; }
         public string JmenoPolovicky { get; set; }
@@ -26,12 +26,13 @@ namespace CS2___MujProjekt
         }
 
 
-        public void VypisUdajeOOsobe()
+        public void VypisUdajeOOsobe() // co třeba VypisUdajeOsoby ?
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("\n___________________________________");
             Console.WriteLine($"{Jmeno} {Prijmeni}, Rodne prijmeni: {RodnePrijmeni}. ");
 
+            // Všechny tyto ify bych refaktoroval do samostatných metod, které budou např. VypisAlergieNaJidlo
             if (AlergieNaJidlo.Count > 0)
             {
                 Console.WriteLine("Ma tyhle alergie na jidlo: ");
@@ -47,21 +48,24 @@ namespace CS2___MujProjekt
             if (JmenaDeti.Count > 0)
             {
                 Console.WriteLine("\nMa deti, ktere se jmenujou: ");
-                Console.Write(String.Join(", ", JmenaDeti));
+                Console.Write(String.Join(", ", JmenaDeti)); // správně by se mělo používat string.Join (string s malým s, protože je to klíčové slovo a nemůže být interpretováno jinak)
             }
 
             if (RandomFakty.Count > 0)
             {
                 Console.WriteLine("\nVime o nem/ni tyhle informace ");
+                // Tohle by šlo také nahradit string.Join
                 foreach (string fakt in RandomFakty)
                 {
                     Console.WriteLine(fakt);
                 }
             }
 
-            Console.WriteLine("\nJeho/jeji polovickou je: " + JmenoPolovicky);
+            Console.WriteLine("\nJeho/jeji polovickou je: " + JmenoPolovicky); // Co když jméno polovičky není? 
 
-
+            // Celý tento kód bych opět refaktoroval do nějaké metody VypisVek().
+            // V ní bych použil aritmetiku datového typu DateTime. Zkus si najít co se stane, resp. jaký datový typ
+            // se Ti vrátí, když odečteš DateTime od DateTime. ;) Pak se Ti ten výpočet značně zjednodušší.
             DateTime aktualniDen = DateTime.Now;
             int vek = aktualniDen.Year - DatumNarozeni.Year;
             if (DatumNarozeni.Month > aktualniDen.Month)
