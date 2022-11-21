@@ -32,5 +32,28 @@ Zadejte
 Vase volba: 
 ");
         }
+
+        public static int OdpovedVyberAkce()
+        {
+            string odpoved = Console.ReadLine();
+            return int.Parse(odpoved);
+        }
+
+        public static void InformaceOmoznostechUVyhledavaniOsob()
+        {
+            Console.WriteLine("Vybrali jste moznost vyhledavani osob. Prejete si vypis vsech evidovanych osob nebo konkretni osoby?" +
+                            "Zadejte '1' pro vypis celeho seznamu nebo '2' pro vypis konkretni osoby.");
+        }
+
+        public static void HlaskaPriUkonceniProgramu()
+        {
+            Console.WriteLine("Dekujeme, nashledanou.");
+        }
+
+        public static void HlaskaNeplatnySymbol()
+        {
+            Console.WriteLine("Zadali jste neplatny symbol, opakujte volbu.");
+        }
+
     }
 }
