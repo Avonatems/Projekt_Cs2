@@ -18,11 +18,10 @@ namespace CS2___MujProjekt
             SeznamZnamych = new List<Osoba>();
         }
 
-        public void NacteniExtSeznamu()
+        public void NacteniExternihoSeznamu()
         {
             {
-                adresarProSeznam = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "MujProjektCS2");
+                adresarProSeznam = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MujProjektCS2");
                 seznamXmlSCestou = Path.Combine(adresarProSeznam, "MujSeznamNaProjekt.xml");
 
                 if (!Directory.Exists(Path.GetDirectoryName(seznamXmlSCestou)))
@@ -38,7 +37,7 @@ namespace CS2___MujProjekt
             }
         }
 
-        public void ZapisDoExtSeznamu()
+        public void ZapisDoExternihoSeznamu()
         {
             XmlSerializer serializer = new XmlSerializer(typeof(List<Osoba>));
             using (StreamWriter writer = new StreamWriter(seznamXmlSCestou))
@@ -94,15 +93,19 @@ namespace CS2___MujProjekt
                     odpovedJmenaDeti = Console.ReadLine();
                 }
 
-                Console.WriteLine("Zadejte jmeno polovicky: ");
-                Kontakt.JmenoPolovicky = Console.ReadLine();
+                Console.WriteLine("Zmente jmeno polovicky. Pokud ho nechcete zadat, zadejte 'hotovo'. ");
+                string odpovedNaDotaz = Console.ReadLine();
+                if (odpovedNaDotaz != "hotovo")
+                {
+                    Kontakt.JmenoPolovicky = odpovedNaDotaz;
+                }
 
-                Console.WriteLine("Zadejte random fakty. Pokud nechcete doplnit zadne, zadejte 'hotovo'. ");
+                Console.WriteLine("Zadejte zajimavost. Pokud nechcete doplnit zadnou, zadejte 'hotovo'. ");
                 string odpovedRandomFakty = Console.ReadLine();
                 while (odpovedRandomFakty != "hotovo")
                 {
-                    Kontakt.RandomFakty.Add(odpovedRandomFakty);
-                    Console.WriteLine("Zadejte dalsi fakt, nebo zadejte 'hotovo'.");
+                    Kontakt.Zajimavosti.Add(odpovedRandomFakty);
+                    Console.WriteLine("Zadejte dalsi zajimavost, nebo zadejte 'hotovo'.");
                     odpovedRandomFakty = Console.ReadLine();
                 }
 
@@ -130,13 +133,17 @@ namespace CS2___MujProjekt
                 }
 
                 SeznamZnamych.Add(Kontakt);
-                ZapisDoExtSeznamu();
+                ZapisDoExternihoSeznamu();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("\n\nPridali jste nasledujici osobu: ");
                 Console.ForegroundColor = ConsoleColor.White;
-                Kontakt.VypisUdajeOOsobe();
+                Kontakt.VypisUdajeOsoby();
                 VypisVsechnyOsoby();
+
+               
+
             }
+            Console.WriteLine("Chcete pridat dalsi osobu? Zadejte 'ano' nebo zmacknete libovolnou klavesu pro navrat k moznostem vyberu. ");
         }
 
         public void VymazOsobu()
@@ -153,7 +160,7 @@ namespace CS2___MujProjekt
             {
                 Console.WriteLine($"Vyhledana osoba je: \n");
 
-                Kontakt.VypisUdajeOOsobe();
+                Kontakt.VypisUdajeOsoby();
                 Console.WriteLine("Prejete si vymazat dany kontakt? Zadejte 'ano' nebo 'ne'. ");
                 string odpovedNaDotaz = Console.ReadLine();
                 if (odpovedNaDotaz != "ano")
@@ -163,13 +170,14 @@ namespace CS2___MujProjekt
                 else
                 {
                     SeznamZnamych.Remove(Kontakt);
-                    ZapisDoExtSeznamu();
+                    ZapisDoExternihoSeznamu();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine($"Osoba {Kontakt.Jmeno} {Kontakt.Prijmeni} byla vymazana ze seznamu.");
                     Console.ForegroundColor = ConsoleColor.White;
                     VypisVsechnyOsoby();
                 }
             }
+            Console.WriteLine("Chcete vymazat jinou osobu? Zadejte 'ano' nebo zmacknete libovolnou klavesu pro navrat k moznostem vyberu. ");
         }
 
         public void EditujOsobu()
@@ -186,7 +194,7 @@ namespace CS2___MujProjekt
             else
             {
                 Console.WriteLine($"Vyhledana osoba je: ");
-                Kontakt.VypisUdajeOOsobe();
+                Kontakt.VypisUdajeOsoby();
 
                 Console.WriteLine("Prejete si editovat dany kontakt? Zadejte 'ano' nebo 'ne'. ");
                 string odpovedNaDotaz = Console.ReadLine();
@@ -237,7 +245,7 @@ namespace CS2___MujProjekt
                     odpovedNaDotaz = Console.ReadLine();
                     while (odpovedNaDotaz != "hotovo")
                     {
-                        Kontakt.RandomFakty.Add(odpovedNaDotaz);
+                        Kontakt.Zajimavosti.Add(odpovedNaDotaz);
                         Console.WriteLine("Pridejte dalsi fakt. Pokud nechcete doplnit zadne, zadejte 'hotovo'. ");
                         odpovedNaDotaz = Console.ReadLine();
                     }
@@ -267,10 +275,11 @@ namespace CS2___MujProjekt
 
 
                     Console.WriteLine($"Zmenili jste kontakt {Kontakt.Jmeno} {Kontakt.Prijmeni} nasledovne:\n\n\n *****");
-                    ZapisDoExtSeznamu();
-                    Kontakt.VypisUdajeOOsobe();
+                    ZapisDoExternihoSeznamu();
+                    Kontakt.VypisUdajeOsoby();
                 }
             }
+            Console.WriteLine("Chcete editovat jinou osobu? Zadejte 'ano' nebo zmacknete libovolnou klavesu pro navrat k moznostem vyberu. ");
         }
 
         public Osoba VyhledejOsobu()
@@ -281,18 +290,20 @@ namespace CS2___MujProjekt
         }
 
 
-        public void VypisJedneOsoby()
+        public void VyhledejAVypisJednuOsobu()
         {
+            Console.WriteLine("Vybrali jste moznost zobrazeni udaju konkretni osoby. Zadejte prijmeni osoby, kterou si prejete vypsat.");
             Kontakt = VyhledejOsobu();
             if (Kontakt != null)
             {
                 Console.WriteLine($"Vyhledana osoba je: ");
-                Kontakt.VypisUdajeOOsobe();
+                Kontakt.VypisUdajeOsoby();
             }
             else
             {
                 Console.WriteLine("Zadali jste neexistujici kontakt.");
             }
+            Console.WriteLine("Chcete vyhledat jinou osobu? Zadejte 'ano' nebo zmacknete libovolnou klavesu pro navrat k moznostem vyberu. ");
         }
 
         public void VypisVsechnyOsoby()
@@ -308,6 +319,15 @@ namespace CS2___MujProjekt
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.White;
 
+        }
+
+        public bool PrevodAnoNeNaBool(string odpovedUzivatela)
+        {
+            if (odpovedUzivatela == "ano")
+            {
+                return true;
+            }
+            return false;
         }
     }
 
