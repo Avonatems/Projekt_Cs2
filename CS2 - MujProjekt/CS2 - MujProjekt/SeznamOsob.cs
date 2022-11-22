@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Xml.Serialization;
 
 namespace CS2___MujProjekt
@@ -20,19 +22,20 @@ namespace CS2___MujProjekt
 
         public void NacteniExternihoSeznamu()
         {
-            {
-                adresarProSeznam = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MujProjektCS2");
-                seznamXmlSCestou = Path.Combine(adresarProSeznam, "MujSeznamNaProjekt.xml");
+            adresarProSeznam = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MujProjektCS2");
+            seznamXmlSCestou = Path.Combine(adresarProSeznam, "MujSeznamNaProjekt.xml");
 
-                if (!Directory.Exists(Path.GetDirectoryName(seznamXmlSCestou)))
-                {
-                    Directory.CreateDirectory(Path.GetDirectoryName(seznamXmlSCestou));
-                }
+            if (!Directory.Exists(adresarProSeznam))
+            {
+                Directory.CreateDirectory(adresarProSeznam);
+                return;
             }
 
-            using (StreamReader ctecka = new StreamReader(seznamXmlSCestou))
+            if (!File.Exists(seznamXmlSCestou)) return;
+
+            using (var ctecka = new StreamReader(seznamXmlSCestou))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Osoba>));
+                var serializer = new XmlSerializer(typeof(List<Osoba>));
                 SeznamZnamych = serializer.Deserialize(ctecka) as List<Osoba>;
             }
         }
@@ -48,6 +51,16 @@ namespace CS2___MujProjekt
 
         public void PridejNovouOsobu()
         {
+            // Celé tohle bych zjednodušil a šel bych tímto postupem:
+            // 1. Vytvořil bych osobu (o vytvoření ještě níže)
+            // 2. Zkontroloval bych, jestli už v seznamu je, pokud opravdu chceš kontrolovat. Je sice málo pravděpodobné, že budeš mít 2 kamarády stejného jméno i příjmení a stejného data narození, ale myslím, že je to úplně v pořádku.
+            //    Nicméně, pokud chceš kontrolovat, tak bych to prostě zkontroloval a pokud tam je, tak prostě chyba a return.
+            // 3. Přidal bych osobu.
+
+            // Pro přidání bych postupoval iterativně, ale nepoužíval bych cykly.
+            // Pokud chce někdo přidat alergie, tak by to mohl přidat např. pomocí "lepek, sójá, mléko" a rozdělil bych to podle čárky na 3 alergie a přidal.
+            // A pokud uživatel zadá prázdný řetězec (nic nenapíše a dá prostě enter), tak bych to bral jako OK, žádné nejsou a šel bych dál.
+            // Díky tomu se Ti to značně zjednodušší.
             Console.WriteLine("Vybrali jste moznost Zadani nove osoby. Zadejte prijmeni pro overeni, zda se uz osoba v seznamu nenachazi.");
             Osoba kontaktNaPorovnani = VyhledejOsobu();
             if (kontaktNaPorovnani != null)
@@ -190,16 +203,23 @@ namespace CS2___MujProjekt
             if (Kontakt == null)
             {
                 Console.WriteLine("Zadali jste neexistujici kontakt.");
+                // Tady když dáš return; do tak vůbec nepotřebuješ ten else.
             }
             else
             {
                 Console.WriteLine($"Vyhledana osoba je: ");
                 Kontakt.VypisUdajeOsoby();
 
+                // Tahle otázka je zbytečné. Uživatel si už jednou zvolil editaci osoby, tak budiž.
+                // Už bych se na to znova neptal a normálně pokračoval.
                 Console.WriteLine("Prejete si editovat dany kontakt? Zadejte 'ano' nebo 'ne'. ");
                 string odpovedNaDotaz = Console.ReadLine();
                 if (odpovedNaDotaz == "ano")
                 {
+                    // Změnil bych to na to jednodušší: Pokud se zadá prázdný řetězec, nic se nezmění, pokud něco zadá, tak se to upraví.
+                    // Dá se to napsat jednoduše
+                    // string odpoved = Console.ReadLine();
+                    // Kontakt.Prijmeni = odpoved == "" ? Kontakt.Prijmeni : odpoved;
                     Console.WriteLine("Zadejte nove prijmeni osoby. Pokud ho nechcete menit, zadejte 'hotovo'. ");
                     odpovedNaDotaz = Console.ReadLine();
                     if (odpovedNaDotaz != "hotovo")
@@ -250,6 +270,29 @@ namespace CS2___MujProjekt
                         odpovedNaDotaz = Console.ReadLine();
                     }
 
+                    // Zase bych to jednodušil.
+                    // Postupoval bych takto:
+                    // 1. Vypsal bych: Napište datum ve formátu mm/dd/rrrr, nebo pokračujte Enterem.
+                    // Pokud Enter (prázdný string), pokračoval bych a nic nepřepisoval.
+                    // Pokud uživatel něco zadal, zkusil bych zparsovat.
+                    // Pokud uspěch, vrátil bych datum.
+                    // Pokud to selže, opakoval bych vstup.
+                    // Pokud Enter...
+                    // Vidíš, že je to cyklus. Dá se to napsat nějakou funkcí jako tato.
+                    /*DateTime? GetDate()
+                    {
+                        DateTime? result = null;
+                        string userInput;
+                        do
+                        {
+                            userInput = Console.ReadLine();
+                            if (userInput == "")
+                            {
+                                return result;
+                            }
+                        } while (!DateTime.TryParseExact(userInput, "mm/dd/yyyy", Thread.CurrentThread.CurrentCulture, DateTimeStyles.AssumeLocal , out result));
+                    };
+                    Kontakt.DatumNarozeni = GetDate() ?? Kontakt.DatumNarozeni;*/
                     Console.WriteLine("Chcete doplnit datum narozeni? Zadejte 'ano' nebo 'ne'. ");
                     odpovedNaDotaz = Console.ReadLine();
                     if (odpovedNaDotaz == "ano")
@@ -284,7 +327,7 @@ namespace CS2___MujProjekt
 
         public Osoba VyhledejOsobu()
         {
-            string prijmeniOsoby = Console.ReadLine();
+            string prijmeniOsoby = Console.ReadLine(); // Tady asi nebudu vědět, na co se mne ptáš.
             Kontakt = SeznamZnamych.Find(o => o.Prijmeni.Equals(prijmeniOsoby, StringComparison.OrdinalIgnoreCase));
             return Kontakt;
         }
