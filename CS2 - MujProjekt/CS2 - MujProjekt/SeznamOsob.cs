@@ -10,8 +10,8 @@ namespace CS2___MujProjekt
     {
         public List<Osoba> SeznamZnamych;
         public Osoba Kontakt;
-        string adresarProSeznam;
-        string seznamXmlSCestou;
+        string adresarProSeznam = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MujProjektCS2");
+        string nazevXmlSouboru = "MujSeznamNaProjekt.xml";
 
         public SeznamOsob()
         {
@@ -20,14 +20,17 @@ namespace CS2___MujProjekt
 
         public void NacteniExternihoSeznamu()
         {
-            {
-                adresarProSeznam = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "MujProjektCS2");
-                seznamXmlSCestou = Path.Combine(adresarProSeznam, "MujSeznamNaProjekt.xml");
+            string seznamXmlSCestou = Path.Combine(adresarProSeznam, nazevXmlSouboru);
 
-                if (!Directory.Exists(Path.GetDirectoryName(seznamXmlSCestou)))
-                {
-                    Directory.CreateDirectory(Path.GetDirectoryName(seznamXmlSCestou));
-                }
+            if (!Directory.Exists(adresarProSeznam))
+            {
+                Directory.CreateDirectory(adresarProSeznam);
+                return;
+            }
+
+            if (!File.Exists(seznamXmlSCestou))
+            {
+                return;
             }
 
             using (StreamReader ctecka = new StreamReader(seznamXmlSCestou))
@@ -39,6 +42,7 @@ namespace CS2___MujProjekt
 
         public void ZapisDoExternihoSeznamu()
         {
+            string seznamXmlSCestou = Path.Combine(adresarProSeznam, nazevXmlSouboru);
             XmlSerializer serializer = new XmlSerializer(typeof(List<Osoba>));
             using (StreamWriter writer = new StreamWriter(seznamXmlSCestou))
             {
@@ -140,7 +144,7 @@ namespace CS2___MujProjekt
                 Kontakt.VypisUdajeOsoby();
                 VypisVsechnyOsoby();
 
-               
+
 
             }
             Console.WriteLine("Chcete pridat dalsi osobu? Zadejte 'ano' nebo zmacknete libovolnou klavesu pro navrat k moznostem vyberu. ");
