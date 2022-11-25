@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using System.Globalization;
+using System.Threading;
 
 namespace CS2___MujProjekt
 {
@@ -33,9 +35,9 @@ namespace CS2___MujProjekt
                 return;
             }
 
-            using (StreamReader ctecka = new StreamReader(seznamXmlSCestou))
+            using (var ctecka = new StreamReader(seznamXmlSCestou))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Osoba>));
+                var serializer = new XmlSerializer(typeof(List<Osoba>));
                 SeznamZnamych = serializer.Deserialize(ctecka) as List<Osoba>;
             }
         }
@@ -87,6 +89,7 @@ namespace CS2___MujProjekt
                     Console.WriteLine("Zadejte dalsi oblibene jidlo, nebo zadejte 'hotovo'.");
                     odpovedNaOblibeneJidlo = Console.ReadLine();
                 }
+
 
                 Console.WriteLine("Zadejte jmeno prvniho ditete. Pokud nechcete doplnit zadne, zadejte 'hotovo'. ");
                 string odpovedJmenaDeti = Console.ReadLine();

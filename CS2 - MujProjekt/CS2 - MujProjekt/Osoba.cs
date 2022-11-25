@@ -9,7 +9,7 @@ namespace CS2___MujProjekt
         public string Jmeno { get; set; }
         public string Prijmeni { get; set; }
         public string RodnePrijmeni { get; set; }
-        public List<string> AlergieNaJidlo { get; } // U žádného z těchto seznamů nepotřebuješ set; OPRAVENE. Je to vyslovene chyba, alebo to len zbytocne berie pamat, alebo..?
+        public List<string> AlergieNaJidlo { get; } 
         public List<string> OblibenaJidla { get; }
         public List<string> JmenaDeti { get; }
         public string JmenoPolovicky { get; set; }
@@ -26,13 +26,12 @@ namespace CS2___MujProjekt
         }
 
 
-        public void VypisUdajeOsoby() // co třeba VypisUdajeOsoby ? OPRAVENE
+        public void VypisUdajeOsoby() 
         {
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("\n___________________________________");
             Console.WriteLine($"{Jmeno} {Prijmeni}, Rodne prijmeni: {RodnePrijmeni}. ");
 
-            // Všechny tyto ify bych refaktoroval do samostatných metod, které budou např. VypisAlergieNaJidlo - OPRAVENE
             VypisAlergieNaJidlo();
             VypisOblibenaJidla();
             VypisJmenaDeti();
@@ -67,8 +66,7 @@ namespace CS2___MujProjekt
             if (JmenaDeti.Count > 0)
             {
                 Console.WriteLine("\nMa deti, ktere se jmenujou: ");
-                Console.Write(string.Join(", ", JmenaDeti)); // správně by se mělo používat string.Join (string s malým s, protože je to klíčové slovo a nemůže být interpretováno jinak)
-                                                             // OPRAVENE
+                Console.Write(string.Join(", ", JmenaDeti)); 
             }
         }
 
@@ -77,7 +75,6 @@ namespace CS2___MujProjekt
             if (Zajimavosti.Count > 0)
             {
                 Console.WriteLine("\nVime o nem/ni tyhle informace ");
-                // Tohle by šlo také nahradit string.Join - OPRAVENE
                 Console.WriteLine(string.Join("\n", Zajimavosti));
             }
         }
@@ -86,19 +83,12 @@ namespace CS2___MujProjekt
         {
             if (!string.IsNullOrEmpty(JmenoPolovicky))
             {
-                Console.WriteLine("Jeho/jeji polovickou je: " + JmenoPolovicky); // Co když jméno polovičky není?  - OSETRENE
+                Console.WriteLine("Jeho/jeji polovickou je: " + JmenoPolovicky);
             }
         }
 
         public void VypisVek()
         {
-            // Celý tento kód bych opět refaktoroval do nějaké metody VypisVek().
-            // V ní bych použil aritmetiku datového typu DateTime. Zkus si najít co se stane, resp. jaký datový typ
-            // se Ti vrátí, když odečteš DateTime od DateTime. ;) Pak se Ti ten výpočet značně zjednodušší.
-
-            // Daniela - presunute do osobitnej metody.
-            // No, tu prave neviem ako to spravit. Neviem, ci hovoris o TimeSpan, alebo je este nieco ine? V TimeSpan by to ale nejde prepocitat na roky, max na dni, nie?
-
             DateTime aktualniDen = DateTime.Now;
             int vek = aktualniDen.Year - DatumNarozeni.Year;
             if (DatumNarozeni.Month > aktualniDen.Month)
@@ -117,6 +107,5 @@ namespace CS2___MujProjekt
                 Console.WriteLine($"{Jmeno} ma {vek} let.");
             }
         }
-
     }
 }
