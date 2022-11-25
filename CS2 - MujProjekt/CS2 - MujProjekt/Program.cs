@@ -5,11 +5,18 @@ namespace CS2___MujProjekt
 {
     internal class Program
     {
+        enum Moznosti
+        {
+            PridaniOsoby = 1,
+            EditaceOsoby,
+            VymazaniOsoby,
+            VyhledaniOsoby,
+            UkonceniProgramu
+        }
+
         static void Main(string[] args)
         {
             SeznamOsob seznamOsob = new SeznamOsob();
-            bool odpovedNaDotazAnoNe = true;
-
             seznamOsob.NacteniExternihoSeznamu();
 
             OvladaniKonzole.UvodniHlaska();
@@ -19,73 +26,30 @@ namespace CS2___MujProjekt
             {
                 switch (odpoved)
                 {
-                    case 1:
-                        // program pokracuje v zadavani udaju o nove osobe
+                    case (int)Moznosti.PridaniOsoby:
                         seznamOsob.PridejNovouOsobu();
-                        odpovedNaDotazAnoNe = seznamOsob.PrevodAnoNeNaBool(Console.ReadLine());
-                        if (odpovedNaDotazAnoNe)
-                        {
-                            odpoved = 1;
-                        }
-                        else
-                        {
-                            OvladaniKonzole.DotazJakouDalsiAkciProvest();
-                            odpoved = OvladaniKonzole.OdpovedVyberAkce();
-                        }
                         break;
-                    case 2:
+
+                    case (int)Moznosti.EditaceOsoby:
                         seznamOsob.EditujOsobu();
-                        odpovedNaDotazAnoNe = seznamOsob.PrevodAnoNeNaBool(Console.ReadLine());
-                        if (odpovedNaDotazAnoNe)
-                        {
-                            odpoved = 2;
-                        }
-                        else
-                        {
-                            OvladaniKonzole.DotazJakouDalsiAkciProvest();
-                            odpoved = OvladaniKonzole.OdpovedVyberAkce();
-                        }
                         break;
 
-                    case 3:
-                        // program pokracuje k vymazu osoby
+                    case (int)Moznosti.VymazaniOsoby:
                         seznamOsob.VymazOsobu();
-                        odpovedNaDotazAnoNe = seznamOsob.PrevodAnoNeNaBool(Console.ReadLine());
-                        if (odpovedNaDotazAnoNe)
-                        {
-                            odpoved = 3;
-                        }
-                        else
-                        {
-                            OvladaniKonzole.DotazJakouDalsiAkciProvest();
-                            odpoved = OvladaniKonzole.OdpovedVyberAkce();
-                        }
                         break;
 
-                    case 4:
-                        // program pokracuje k vyhledavani osob
+                    case (int)Moznosti.VyhledaniOsoby:
                         OvladaniKonzole.InformaceOmoznostechUVyhledavaniOsob();
-
                         int odpovedNaDotaz = OvladaniKonzole.OdpovedVyberAkce();
                         switch (odpovedNaDotaz)
                         {
 
                             case 1:
                                 seznamOsob.VypisVsechnyOsoby();
-                                OvladaniKonzole.DotazJakouDalsiAkciProvest();
-                                odpoved = OvladaniKonzole.OdpovedVyberAkce();
                                 break;
 
                             case 2:
-                                seznamOsob.VyhledejAVypisJednuOsobu();
-                                odpovedNaDotazAnoNe = seznamOsob.PrevodAnoNeNaBool(Console.ReadLine());
-                                while (odpovedNaDotazAnoNe)
-                                {
-                                    seznamOsob.VyhledejAVypisJednuOsobu();
-                                    odpovedNaDotazAnoNe = seznamOsob.PrevodAnoNeNaBool(Console.ReadLine());
-                                }
-                                OvladaniKonzole.DotazJakouDalsiAkciProvest();
-                                odpoved = OvladaniKonzole.OdpovedVyberAkce();
+                                seznamOsob.VyhledejAVypisJednuOsobu();                              
                                 break;
 
                             default:
@@ -94,19 +58,20 @@ namespace CS2___MujProjekt
                         }
                         break;
 
-                    case 5:
+                    case (int)Moznosti.UkonceniProgramu:
                         break;
 
                     default:
-                        // info, ze byl zadan neplatny symbol, a vyzva, aby uzivatel opakoval akci
                         OvladaniKonzole.HlaskaNeplatnySymbol();
-                        OvladaniKonzole.DotazJakouDalsiAkciProvest();
-                        odpoved = OvladaniKonzole.OdpovedVyberAkce();
                         break;
                 }
-            } while (odpoved != 5);
+                OvladaniKonzole.DotazJakouDalsiAkciProvest();
+                odpoved = OvladaniKonzole.OdpovedVyberAkce();
+            } while (odpoved != (int)Moznosti.UkonceniProgramu);
             OvladaniKonzole.HlaskaPriUkonceniProgramu();
             Console.ReadLine();
         }
     }
 }
+
+

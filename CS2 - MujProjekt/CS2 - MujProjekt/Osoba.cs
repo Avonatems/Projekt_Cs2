@@ -38,12 +38,12 @@ namespace CS2___MujProjekt
             VypisZajimavosti();
             VypisJmenoPolovicky();
             VypisVek();        
-            Console.WriteLine("___________________________________");
+            Console.WriteLine("\n___________________________________");
             Console.ForegroundColor = ConsoleColor.White;
         
         
         }
-        public void VypisAlergieNaJidlo()
+        private void VypisAlergieNaJidlo()
         {
             if (AlergieNaJidlo.Count > 0)
             {
@@ -52,7 +52,7 @@ namespace CS2___MujProjekt
             }
         }
 
-        public void VypisOblibenaJidla()
+        private void VypisOblibenaJidla()
         {
             if (OblibenaJidla.Count > 0)
             {
@@ -61,7 +61,7 @@ namespace CS2___MujProjekt
             }
         }
 
-        public void VypisJmenaDeti()
+        private void VypisJmenaDeti()
         {
             if (JmenaDeti.Count > 0)
             {
@@ -70,7 +70,7 @@ namespace CS2___MujProjekt
             }
         }
 
-        public void VypisZajimavosti()
+        private void VypisZajimavosti()
         {
             if (Zajimavosti.Count > 0)
             {
@@ -79,15 +79,15 @@ namespace CS2___MujProjekt
             }
         }
 
-        public void VypisJmenoPolovicky()
+        private void VypisJmenoPolovicky()
         {
             if (!string.IsNullOrEmpty(JmenoPolovicky))
             {
-                Console.WriteLine("Jeho/jeji polovickou je: " + JmenoPolovicky);
+                Console.WriteLine("\nJeho/jeji polovickou je: " + JmenoPolovicky);
             }
         }
 
-        public void VypisVek()
+        private void VypisVek()
         {
             DateTime aktualniDen = DateTime.Now;
             int vek = aktualniDen.Year - DatumNarozeni.Year;
