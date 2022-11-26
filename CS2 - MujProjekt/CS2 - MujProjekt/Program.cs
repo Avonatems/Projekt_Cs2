@@ -49,7 +49,7 @@ namespace CS2___MujProjekt
                                 break;
 
                             case 2:
-                                seznamOsob.VyhledejAVypisJednuOsobu();                              
+                                seznamOsob.VyhledejAVypisJednuOsobu();
                                 break;
 
                             default:
@@ -59,7 +59,9 @@ namespace CS2___MujProjekt
                         break;
 
                     case (int)Moznosti.UkonceniProgramu:
-                        break;
+                        OvladaniKonzole.HlaskaPriUkonceniProgramu();
+                        Console.ReadLine();
+                        return;
 
                     default:
                         OvladaniKonzole.HlaskaNeplatnySymbol();
@@ -67,9 +69,7 @@ namespace CS2___MujProjekt
                 }
                 OvladaniKonzole.DotazJakouDalsiAkciProvest();
                 odpoved = OvladaniKonzole.OdpovedVyberAkce();
-            } while (odpoved != (int)Moznosti.UkonceniProgramu);
-            OvladaniKonzole.HlaskaPriUkonceniProgramu();
-            Console.ReadLine();
+            } while (true);
         }
     }
 }
