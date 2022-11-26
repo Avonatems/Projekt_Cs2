@@ -52,18 +52,20 @@ namespace CS2___MujProjekt
 
         public void PridejNovouOsobu()
         {
-            string uvodniDotaz = "Vybrali jste moznost Zadani nove osoby. Zadejte prijmeni pro overeni, zda se uz osoba v seznamu nenachazi.";
-            Osoba kontaktNaPorovnani = VyhledejOsobu(uvodniDotaz);
+            Console.WriteLine ("Vybrali jste moznost Zadani nove osoby. Zadejte prijmeni pro overeni, zda se uz osoba v seznamu nenachazi.");
+            string prijmeniOsoby = Console.ReadLine();
+            Osoba kontaktNaPorovnani =  PorovnejOsobu(prijmeniOsoby);
+
             if (kontaktNaPorovnani != null)
             {
                 Console.WriteLine("Zadali jste existujici kontakt. Pokud presto chcete kontakt zadat, doplnte za prijmeni rozlisovaci znak. Napr. 'Novak-starsi'.");
                 Console.WriteLine($"Vyhledana osoba je {kontaktNaPorovnani.Jmeno} {kontaktNaPorovnani.Prijmeni}");
                 return;
             }
+            
             Kontakt = new Osoba();
             Console.WriteLine("Tenhle kontakt se jeste v seznamu nenachazi.");
-            Console.WriteLine("Zadejte prijmeni jeste jednou: ");
-            Kontakt.Prijmeni = Console.ReadLine();
+            Kontakt.Prijmeni = prijmeniOsoby;
 
             Console.WriteLine("Zadejte jmeno: ");
             Kontakt.Jmeno = Console.ReadLine();
@@ -216,6 +218,12 @@ namespace CS2___MujProjekt
         {
             Console.WriteLine(uvodniDotaz);
             string prijmeniOsoby = Console.ReadLine();
+            Kontakt = PorovnejOsobu(prijmeniOsoby);
+            return Kontakt;
+        }
+
+        private Osoba PorovnejOsobu(string prijmeniOsoby)
+        {
             Kontakt = SeznamZnamych.Find(o => o.Prijmeni.Equals(prijmeniOsoby, StringComparison.OrdinalIgnoreCase));
             return Kontakt;
         }
