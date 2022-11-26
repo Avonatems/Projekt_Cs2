@@ -54,6 +54,5 @@ Vase volba:
         {
             Console.WriteLine("Zadali jste neplatny symbol, opakujte volbu.");
         }
-
     }
 }

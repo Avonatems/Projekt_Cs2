@@ -52,9 +52,9 @@ namespace CS2___MujProjekt
 
         public void PridejNovouOsobu()
         {
-            Console.WriteLine ("Vybrali jste moznost Zadani nove osoby. Zadejte prijmeni pro overeni, zda se uz osoba v seznamu nenachazi.");
+            Console.WriteLine("Vybrali jste moznost Zadani nove osoby. Zadejte prijmeni pro overeni, zda se uz osoba v seznamu nenachazi.");
             string prijmeniOsoby = Console.ReadLine();
-            Osoba kontaktNaPorovnani =  PorovnejOsobu(prijmeniOsoby);
+            Osoba kontaktNaPorovnani = VyhledejZadanePrijmeni(prijmeniOsoby);
 
             if (kontaktNaPorovnani != null)
             {
@@ -62,7 +62,7 @@ namespace CS2___MujProjekt
                 Console.WriteLine($"Vyhledana osoba je {kontaktNaPorovnani.Jmeno} {kontaktNaPorovnani.Prijmeni}");
                 return;
             }
-            
+
             Kontakt = new Osoba();
             Console.WriteLine("Tenhle kontakt se jeste v seznamu nenachazi.");
             Kontakt.Prijmeni = prijmeniOsoby;
@@ -161,30 +161,28 @@ namespace CS2___MujProjekt
             if (Kontakt == null)
             {
                 Console.WriteLine("Zadali jste neexistujici kontakt.");
+                return;
+            }
+
+            Console.WriteLine($"Vyhledana osoba je: \n");
+            Kontakt.VypisUdajeOsoby();
+            Console.WriteLine("Prejete si vymazat dany kontakt? Zadejte 'ano' nebo 'ne'. ");
+            string odpovedNaDotaz = Console.ReadLine();
+            if (odpovedNaDotaz != "ano")
+            {
+                Console.WriteLine("Akce vymazani neprobehla.");
             }
             else
             {
-                Console.WriteLine($"Vyhledana osoba je: \n");
-
-                Kontakt.VypisUdajeOsoby();
-                Console.WriteLine("Prejete si vymazat dany kontakt? Zadejte 'ano' nebo 'ne'. ");
-                string odpovedNaDotaz = Console.ReadLine();
-                if (odpovedNaDotaz != "ano")
-                {
-                    Console.WriteLine("Akce vymazani neprobehla.");
-                }
-                else
-                {
-                    SeznamZnamych.Remove(Kontakt);
-                    ZapisDoExternihoSeznamu();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Osoba {Kontakt.Jmeno} {Kontakt.Prijmeni} byla vymazana ze seznamu.");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    VypisVsechnyOsoby();
-                }
+                SeznamZnamych.Remove(Kontakt);
+                ZapisDoExternihoSeznamu();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Osoba {Kontakt.Jmeno} {Kontakt.Prijmeni} byla vymazana ze seznamu.");
+                Console.ForegroundColor = ConsoleColor.White;
+                VypisVsechnyOsoby();
             }
         }
-      
+
         public void VyhledejAVypisJednuOsobu()
         {
             string uvodniDotaz = "Vybrali jste moznost zobrazeni udaju konkretni osoby. Zadejte prijmeni osoby, kterou si prejete vypsat.";
@@ -218,23 +216,23 @@ namespace CS2___MujProjekt
         {
             Console.WriteLine(uvodniDotaz);
             string prijmeniOsoby = Console.ReadLine();
-            Kontakt = PorovnejOsobu(prijmeniOsoby);
+            Kontakt = VyhledejZadanePrijmeni(prijmeniOsoby);
             return Kontakt;
         }
 
-        private Osoba PorovnejOsobu(string prijmeniOsoby)
+        private Osoba VyhledejZadanePrijmeni(string prijmeniOsoby)
         {
             Kontakt = SeznamZnamych.Find(o => o.Prijmeni.Equals(prijmeniOsoby, StringComparison.OrdinalIgnoreCase));
             return Kontakt;
         }
 
-        private void DoplnUdajeDoKonkretnihoSeznamu(string odpovedNaDotaz, List<string> seznamDanychUdaju)
+        private void DoplnUdajeDoKonkretnihoSeznamu(string odpovedNaDotaz, List<string> seznamKDoplneni)
         {
             if (!string.IsNullOrEmpty(odpovedNaDotaz))
             {
-                foreach (string slovo in odpovedNaDotaz.Split(','))
+                foreach (string udaj in odpovedNaDotaz.Split(','))
                 {
-                    seznamDanychUdaju.Add(slovo);
+                    seznamKDoplneni.Add(udaj.Trim());
                 }
             }
         }
@@ -247,7 +245,7 @@ namespace CS2___MujProjekt
             bool zapsaniDatumu = false;
 
             if (!string.IsNullOrEmpty(odpovedDatumNarozeni))
-               {
+            {
                 while (!zapsaniDatumu)
                 {
                     if (DateTime.TryParse(odpovedDatumNarozeni, out dateResult))
@@ -259,6 +257,7 @@ namespace CS2___MujProjekt
                     {
                         Console.WriteLine("Zadali jste nespravny format.");
                         Console.WriteLine("Zadejte datum narozeni ve formatu mm/dd/rrrr: ");
+                        odpovedDatumNarozeni = Console.ReadLine();
                     }
                 }
             }
